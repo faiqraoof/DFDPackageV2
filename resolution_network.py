@@ -6,8 +6,9 @@ https://arxiv.org/abs/1811.00656
 
 from tf_utils import utils as tfutils
 import tensorflow as tf
-import tensorflow.contrib.slim as slim
-from tensorflow.contrib.slim.python.slim.nets import resnet_v1, vgg
+import tf_slim as slim
+# import tensorflow.contrib.slim as slim
+from tf_slim.nets import resnet_v1, vgg
 
 
 class ResoNet(object):
@@ -33,7 +34,8 @@ class ResoNet(object):
 
     def build(self):
         # Input
-        self.input = tf.placeholder(dtype=tf.float32, shape=[None, self.img_size[0], self.img_size[1], self.img_size[2]])
+        tf.compat.v1.disable_eager_execution()
+        self.input = tf.compat.v1.placeholder(dtype=tf.float32, shape=[None, self.img_size[0], self.img_size[1], self.img_size[2]])
         self.input_mean = tfutils.mean_value(self.input, self.img_mean)
         if self.base_net == 'vgg16':
             with slim.arg_scope(vgg.vgg_arg_scope()):
@@ -58,7 +60,7 @@ class ResoNet(object):
                 self.logits = net[:, 0, 0, :]
         else:
             raise ValueError('base network should be vgg16, res50, -101, -152...')
-        self.gt = tf.placeholder(dtype=tf.int32, shape=[None])
+        self.gt = tf.compat.v1.placeholder(dtype=tf.int32, shape=[None])
         # self.var_list = tf.trainable_variables()
 
         if self.is_train:
