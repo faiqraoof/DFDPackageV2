@@ -76,8 +76,8 @@ def run(input_dir):
     for f_name in f_list:
         # Parse video
         f_path = os.path.join(input_dir, f_name)
-        print('Testing: ' + f_path)
-        logging.info('Testing: ' + f_path)
+        # print('Testing: ' + f_path)
+        # logging.info('Testing: ' + f_path)
         suffix = f_path.split('.')[-1]
         if suffix.lower() in ['jpg', 'png', 'jpeg', 'bmp', 'tif', 'nef', 'raf']:
             im = cv2.imread(f_path)
@@ -105,7 +105,7 @@ def run(input_dir):
 
         logging.info('Prob = ' + str(prob))
         prob_list.append(prob)
-        print('Prob: ' + str(prob))
+        # print('Prob: ' + str(prob))
 
     sess.close()
     return prob_list
